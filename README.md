@@ -19,6 +19,9 @@ Next.js 14 (App Router) + Supabase (Postgres, Auth, Storage).
 1. **Supabase — do this yourself, mobile browser is fine.** Create a project at
    supabase.com, paste `supabase/schema.sql` into the SQL editor and run it,
    copy the project URL + anon key.
+   - **Already have a project from before?** Don't re-run `schema.sql` (it'll
+     error on existing tables). Instead run `supabase/migration_02_more_schools.sql`
+     — it only adds the new schools/departments and is safe to re-run.
 2. **Everything else — hand the unzipped project to Manus** (or Termux if you'd
    rather keep it local): `npm install`, push to a GitHub repo, then import that
    repo at vercel.com from your phone browser and paste in the two Supabase
@@ -52,11 +55,13 @@ Then visit `/admin/moderation` to approve or reject pending uploads.
 ## Routes
 | Route | Purpose |
 |---|---|
-| `/` | Live clock + greeting, shuffling study memes, school selector, latest news |
-| `/set` | Department list |
-| `/set/[department]` | Level picker (100–500) |
-| `/set/[department]/[level]` | Courses at that level |
-| `/set/[department]/[level]/[course]` | Materials for a course (title-block header) |
+| `/` | Live clock + greeting, meme banner, Trending/Latest rows, all schools, news |
+| `/[school]` | Department list for any school (e.g. `/set`, `/seet`, `/sict`) |
+| `/[school]/[department]` | Level picker (100–500) |
+| `/[school]/[department]/[level]` | Courses at that level |
+| `/[school]/[department]/[level]/[course]` | Materials for a course (title-block header) |
+| `/trending` | Most-downloaded materials, site-wide |
+| `/latest` | Most recently approved uploads, site-wide |
 | `/siwes` → `/siwes/[department]` | SIWES logbooks/reports, department-wide |
 | `/projects` → `/projects/[department]` | Project reports/defense slides, department-wide |
 | `/calendar` | Public academic calendar |
@@ -64,10 +69,23 @@ Then visit `/admin/moderation` to approve or reject pending uploads.
 | `/search?q=` | Course code / title search |
 | `/upload` | Auth-gated upload form (goes to moderation queue) |
 | `/admin` | Redirects to the admin panel |
-| `/admin/courses` | **Add/edit/delete courses** — the main content-management form |
+| `/admin/courses` | Add/edit/delete courses |
+| `/admin/departments` | Add/edit/delete departments under any school |
 | `/admin/moderation` | Approve/reject pending uploads |
 | `/admin/news` | Push/edit/unpublish news posts |
 | `/admin/calendar` | Add/edit/delete academic calendar events |
+
+## Every school is live, not just SET
+Routing is fully generic (`/[school]/[department]/[level]/[course]`) — every
+school in the `schools` table is browsable the moment it has departments and
+courses, no code changes needed. `migration_02_more_schools.sql` seeds SEET,
+SPS, SLS, SICT, and SAAT with their long-standing departments.
+
+**Heads up:** FUTMinna has restructured some schools recently (SAAT reportedly
+split into three, and an Architecture-focused school may have spun out of SET) —
+public sources disagree on the exact current shape, so verify against the
+current student handbook. `/admin/departments` (and raw SQL for schools) is
+where you fix anything that's changed.
 
 ## Becoming an admin
 All `/admin/*` pages are gated by `AdminGate` (`src/components/AdminGate.tsx`), which

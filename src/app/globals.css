@@ -22,7 +22,13 @@ h1, h2, h3, .font-display {
   font-family: "IBM Plex Mono", monospace;
 }
 
-/* Corner crop marks — a drafting-sheet motif used sparingly on cards */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
 .crop-marks {
   position: relative;
 }

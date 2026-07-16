@@ -14,7 +14,7 @@ export default async function SearchPage({
   const { data: results } = q
     ? await supabase
         .from("courses")
-        .select("id, code, title, level, departments(slug, name)")
+        .select("id, code, title, level, departments(slug, name, schools(slug, name))")
         .or(`code.ilike.%${q}%,title.ilike.%${q}%`)
         .limit(30)
     : { data: [] };
@@ -36,7 +36,7 @@ export default async function SearchPage({
         {results?.map((c: any) => (
           <Link
             key={c.id}
-            href={`/set/${c.departments.slug}/${c.level}/${c.code.replace(/\s+/g, "-").toLowerCase()}`}
+            href={`/${c.departments.schools.slug}/${c.departments.slug}/${c.level}/${c.code.replace(/\s+/g, "-").toLowerCase()}`}
             className="flex items-center justify-between bg-paper text-ink rounded-sm px-4 py-3 hover:bg-paper/90 transition-colors"
           >
             <div>

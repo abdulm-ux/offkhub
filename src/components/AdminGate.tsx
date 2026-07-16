@@ -6,6 +6,7 @@ import { useAdminGuard } from "@/lib/useAdminGuard";
 
 const TABS = [
   { href: "/admin/courses", label: "Courses" },
+  { href: "/admin/departments", label: "Departments" },
   { href: "/admin/moderation", label: "Moderation" },
   { href: "/admin/news", label: "News" },
   { href: "/admin/calendar", label: "Calendar" },

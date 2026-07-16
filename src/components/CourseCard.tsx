@@ -6,11 +6,11 @@ export default function CourseCard({
   departmentSlug,
 }: {
   course: Course;
-  departmentSlug: string;
+  departmentSlug: string; // e.g. "set/architecture"
 }) {
   return (
     <Link
-      href={`/set/${departmentSlug}/${course.level}/${course.code.replace(/\s+/g, "-").toLowerCase()}`}
+      href={`/${departmentSlug}/${course.level}/${course.code.replace(/\s+/g, "-").toLowerCase()}`}
       className="crop-marks block bg-paper text-ink rounded-sm p-4 hover:-translate-y-0.5 transition-transform"
     >
       <div className="font-mono text-xs text-blueprint/70">{course.code}</div>
