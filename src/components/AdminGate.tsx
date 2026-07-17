@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase";
 import { useAdminGuard } from "@/lib/useAdminGuard";
 
 const TABS = [
+  { href: "/admin", label: "Dashboard" },
   { href: "/admin/courses", label: "Courses" },
   { href: "/admin/departments", label: "Departments" },
   { href: "/admin/moderation", label: "Moderation" },
@@ -24,7 +25,12 @@ export default function AdminGate({ children }: { children: React.ReactNode }) {
       <div className="max-w-md">
         <h1 className="font-display text-2xl font-semibold text-paper mb-3">Admin sign-in required</h1>
         <button
-          onClick={() => supabase.auth.signInWithOAuth({ provider: "google" })}
+          onClick={() =>
+            supabase.auth.signInWithOAuth({
+              provider: "google",
+              options: { redirectTo: window.location.origin + "/admin" },
+            })
+          }
           className="bg-tape text-blueprint font-medium px-5 py-2.5 rounded-sm hover:opacity-90"
         >
           Continue with Google

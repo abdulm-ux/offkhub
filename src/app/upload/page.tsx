@@ -33,7 +33,10 @@ export default function UploadPage() {
   }, []);
 
   async function signIn() {
-    await supabase.auth.signInWithOAuth({ provider: "google" });
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: window.location.origin + "/upload" },
+    });
   }
 
   async function handleSubmit(e: React.FormEvent) {
