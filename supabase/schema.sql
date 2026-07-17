@@ -53,6 +53,7 @@ create table materials (
   semester text check (semester in ('first','second')),
   uploaded_by uuid references profiles(id),
   approved boolean not null default false,
+  recommended boolean not null default false,
   download_count int not null default 0,
   created_at timestamptz default now(),
   constraint materials_scope check (course_id is not null or department_id is not null)

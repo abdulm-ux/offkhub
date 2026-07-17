@@ -1,14 +1,18 @@
 import Link from "next/link";
-import { ArrowRight, Flame, Clock3 } from "lucide-react";
+import { ArrowRight, Flame, Clock3, Star } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import LiveClock from "@/components/LiveClock";
 import MemeBanner from "@/components/MemeBanner";
+import HeroIllustration from "@/components/HeroIllustration";
+import StatsBar from "@/components/StatsBar";
+import SearchBar from "@/components/SearchBar";
+import { schoolIcon } from "@/lib/schoolIcons";
 import { MATERIAL_TYPE_LABELS } from "@/lib/types";
 
 export const revalidate = 60;
 
 export default async function Home() {
-  const [{ data: schools }, { data: latestNews }, { data: trending }, { data: latest }] = await Promise.all([
+  const [{ data: schools }, { data: latestNews }, { data: trending }, { data: latest }, { data: recommended }] = await Promise.all([
     supabase.from("schools").select("id, name, slug, departments(id)").order("name"),
     supabase.from("news").select("id, title, body, created_at").eq("published", true).order("created_at", { ascending: false }).limit(3),
     supabase
@@ -23,36 +27,66 @@ export default async function Home() {
       .eq("approved", true)
       .order("created_at", { ascending: false })
       .limit(8),
+    supabase
+      .from("materials")
+      .select("id, title, type, courses(code)")
+      .eq("approved", true)
+      .eq("recommended", true)
+      .limit(8),
   ]);
 
   return (
     <div>
       {/* Hero */}
-      <LiveClock />
-      <div className="font-mono text-xs text-tape uppercase tracking-widest mb-2 mt-4">
-        offkhub · Federal University of Technology, Minna
-      </div>
-      <h1 className="font-display text-3xl sm:text-5xl font-semibold text-paper max-w-2xl mb-2 leading-tight">
-        Course materials and past questions, organized like a proper drawing set.
-      </h1>
-      <p className="text-paper/40 text-sm mb-6 max-w-lg">
-        Everything you'd normally have to go off campus to sort out — sorted here instead.
-      </p>
+      <div className="grid lg:grid-cols-2 gap-8 items-center mb-8">
+        <div>
+          <LiveClock />
+          <div className="font-mono text-xs text-tape uppercase tracking-widest mb-2 mt-4">
+            offkhub · Federal University of Technology, Minna
+          </div>
+          <h1 className="font-display text-3xl sm:text-5xl font-semibold text-paper mb-3 leading-tight">
+            Everything FUTMinna students need — course materials, past questions,
+            SIWES resources, and project materials — in one place.
+          </h1>
 
-      <div className="flex flex-wrap gap-3 mb-8">
-        <Link href="/trending" className="bg-tape text-blueprint font-semibold text-sm px-5 py-2.5 rounded-sm hover:opacity-90 transition-opacity">
-          Browse Trending
-        </Link>
-        <Link href="/upload" className="border border-blueprint-line text-paper font-medium text-sm px-5 py-2.5 rounded-sm hover:border-tape transition-colors">
-          Upload a material
-        </Link>
+          <div className="flex flex-col sm:flex-row gap-3 mb-2">
+            <Link
+              href="/trending"
+              className="w-full sm:w-auto text-center bg-tape text-blueprint font-semibold text-sm px-5 py-2.5 rounded-sm hover:opacity-90 transition-opacity"
+            >
+              Browse Trending
+            </Link>
+            <Link
+              href="/upload"
+              className="w-full sm:w-auto text-center border border-blueprint-line text-paper font-medium text-sm px-5 py-2.5 rounded-sm hover:border-tape transition-colors"
+            >
+              Upload a material
+            </Link>
+          </div>
+        </div>
+        <div className="hidden lg:block">
+          <HeroIllustration />
+        </div>
       </div>
+
+      {/* Prominent search */}
+      <div className="mb-6">
+        <SearchBar large placeholder="Search course code, department, or material…" />
+      </div>
+
+      <StatsBar />
 
       <div className="mb-10">
         <MemeBanner />
       </div>
 
-      {/* Trending */}
+      {/* Three-part discovery: most downloaded / new / recommended */}
+      <div className="grid sm:grid-cols-3 gap-3 mb-10">
+        <DiscoveryCard icon="🔥" label="Most Downloaded" href="/trending" count={trending?.length} />
+        <DiscoveryCard icon="📈" label="New Uploads" href="/latest" count={latest?.length} />
+        <DiscoveryCard icon="⭐" label="Lecturer Recommended" href="/recommended" count={recommended?.length} />
+      </div>
+
       {!!trending?.length && (
         <Section title="Trending" icon={<Flame size={16} className="text-tape" />} href="/trending">
           <ScrollRow>
@@ -63,7 +97,6 @@ export default async function Home() {
         </Section>
       )}
 
-      {/* Latest */}
       {!!latest?.length && (
         <Section title="Latest uploads" icon={<Clock3 size={16} className="text-tape" />} href="/latest">
           <ScrollRow>
@@ -80,14 +113,25 @@ export default async function Home() {
         </Section>
       )}
 
+      {!!recommended?.length && (
+        <Section title="Lecturer recommended" icon={<Star size={16} className="text-tape" />} href="/recommended">
+          <ScrollRow>
+            {recommended.map((m: any) => (
+              <MaterialTile key={m.id} title={m.title} sub={m.courses?.code} type={m.type} meta="⭐" />
+            ))}
+          </ScrollRow>
+        </Section>
+      )}
+
       {/* Schools */}
       <div className="mb-10">
         <h2 className="font-display text-lg font-semibold text-paper mb-3">Schools</h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           {schools?.map((s: any) => (
-            <Link key={s.id} href={`/${s.slug}`} className="crop-marks bg-paper text-ink rounded-sm p-5 hover:-translate-y-0.5 transition-transform">
+            <Link key={s.id} href={`/${s.slug}`} className="crop-marks bg-paper text-ink rounded-sm p-4 sm:p-5 hover:-translate-y-0.5 transition-transform">
+              <div className="text-2xl mb-1">{schoolIcon(s.slug)}</div>
               <div className="font-mono text-xs text-blueprint/70 uppercase">{s.slug}</div>
-              <div className="font-display font-semibold mt-1">{s.name}</div>
+              <div className="font-display font-semibold text-sm sm:text-base mt-1">{s.name}</div>
               <div className="text-xs text-ink/40 mt-2">{s.departments?.length ?? 0} department{s.departments?.length === 1 ? "" : "s"}</div>
             </Link>
           ))}
@@ -120,6 +164,16 @@ export default async function Home() {
         </Section>
       )}
     </div>
+  );
+}
+
+function DiscoveryCard({ icon, label, href, count }: { icon: string; label: string; href: string; count?: number }) {
+  return (
+    <Link href={href} className="crop-marks bg-blueprint-light/30 border border-blueprint-line rounded-sm p-4 hover:border-tape transition-colors">
+      <div className="text-2xl mb-1">{icon}</div>
+      <div className="font-display font-semibold text-paper text-sm">{label}</div>
+      <div className="text-xs text-paper/40 mt-1">{count ? `${count} available` : "Check back soon"}</div>
+    </Link>
   );
 }
 

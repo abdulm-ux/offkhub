@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Search, Upload, Menu, X } from "lucide-react";
 import SchoolsMenu from "./SchoolsMenu";
 import SearchBar from "./SearchBar";
+import AdminBadge from "./AdminBadge";
 
 const LINKS = [
   { href: "/trending", label: "Trending" },
@@ -34,7 +35,8 @@ export default function Navbar() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-1 shrink-0">
+          <div className="flex items-center gap-2 shrink-0">
+            <AdminBadge />
             <button
               onClick={() => setSearchOpen((o) => !o)}
               aria-label="Search"

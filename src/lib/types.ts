@@ -32,6 +32,7 @@ export type Material = {
   session: string | null;
   semester: "first" | "second" | null;
   approved: boolean;
+  recommended: boolean;
   download_count: number;
   created_at: string;
 };

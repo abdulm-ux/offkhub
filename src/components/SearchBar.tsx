@@ -2,8 +2,17 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Search } from "lucide-react";
 
-export default function SearchBar({ compact = false }: { compact?: boolean }) {
+export default function SearchBar({
+  compact = false,
+  large = false,
+  placeholder = "Search a course code, e.g. ARC 401",
+}: {
+  compact?: boolean;
+  large?: boolean;
+  placeholder?: string;
+}) {
   const [q, setQ] = useState("");
   const router = useRouter();
 
@@ -13,13 +22,21 @@ export default function SearchBar({ compact = false }: { compact?: boolean }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="w-full">
+    <form onSubmit={handleSubmit} className="w-full relative">
+      <Search
+        size={large ? 20 : 16}
+        className="absolute left-3 top-1/2 -translate-y-1/2 text-paper/40 pointer-events-none"
+      />
       <input
         value={q}
         onChange={(e) => setQ(e.target.value)}
-        placeholder="Search a course code, e.g. ARC 401"
-        className={`w-full rounded-md border border-blueprint-line bg-blueprint-light/40 text-paper placeholder:text-paper/50 font-mono text-sm px-3 focus:outline-none focus:ring-2 focus:ring-tape ${
-          compact ? "py-1.5" : "py-3 text-base"
+        placeholder={placeholder}
+        className={`w-full rounded-md border bg-blueprint-light/40 text-paper placeholder:text-paper/50 font-mono focus:outline-none focus:ring-2 focus:ring-tape ${
+          large
+            ? "border-blueprint-line pl-11 pr-4 py-4 text-base sm:text-lg"
+            : compact
+            ? "border-blueprint-line pl-8 pr-3 py-1.5 text-sm"
+            : "border-blueprint-line pl-9 pr-3 py-3 text-base"
         }`}
       />
     </form>
