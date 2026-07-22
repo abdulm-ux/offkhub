@@ -139,7 +139,7 @@ export default async function Home() {
       </div>
 
       {/* Quick links */}
-      <div className="grid sm:grid-cols-2 gap-3 mb-10">
+      <div className="grid sm:grid-cols-3 gap-3 mb-10">
         <Link href="/siwes" className="crop-marks bg-paper text-ink rounded-sm p-5 hover:-translate-y-0.5 transition-transform">
           <div className="font-display font-semibold">SIWES Resources</div>
           <div className="text-xs text-ink/50 mt-1">Logbooks, reports, placement guides</div>
@@ -147,6 +147,10 @@ export default async function Home() {
         <Link href="/projects" className="crop-marks bg-paper text-ink rounded-sm p-5 hover:-translate-y-0.5 transition-transform">
           <div className="font-display font-semibold">Project Materials</div>
           <div className="text-xs text-ink/50 mt-1">Past project reports and defense slides</div>
+        </Link>
+        <Link href="/contributors" className="crop-marks bg-paper text-ink rounded-sm p-5 hover:-translate-y-0.5 transition-transform">
+          <div className="font-display font-semibold">🏆 Top Contributors</div>
+          <div className="text-xs text-ink/50 mt-1">See who's uploading the most</div>
         </Link>
       </div>
 

@@ -47,6 +47,15 @@ export const MATERIAL_TYPE_LABELS: Record<MaterialType, string> = {
   other: "Other",
 };
 
+export type ContributorStats = {
+  id: string;
+  full_name: string | null;
+  verified: boolean;
+  department_id: string | null;
+  uploads_count: number;
+  downloads_total: number;
+};
+
 export type NewsPost = {
   id: string;
   title: string;

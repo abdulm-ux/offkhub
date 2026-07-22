@@ -35,6 +35,7 @@ create table profiles (
   full_name text,
   department_id uuid references departments(id),
   role text not null default 'student' check (role in ('student','contributor','admin')),
+  verified boolean not null default false,
   created_at timestamptz default now()
 );
 
@@ -130,9 +131,21 @@ create policy "Admins can manage materials"
   on materials for all
   using (exists (select 1 from profiles where id = auth.uid() and role = 'admin'));
 
-create policy "Profiles are viewable by owner"
-  on profiles for select
-  using (auth.uid() = id);
+create policy "Public can view profiles" on profiles for select using (true);
+
+-- Aggregate stats per contributor for the public leaderboard.
+create view contributor_stats
+with (security_invoker = true) as
+select
+  p.id,
+  p.full_name,
+  p.verified,
+  p.department_id,
+  count(m.id) filter (where m.approved) as uploads_count,
+  coalesce(sum(m.download_count) filter (where m.approved), 0) as downloads_total
+from profiles p
+left join materials m on m.uploaded_by = p.id
+group by p.id, p.full_name, p.verified, p.department_id;
 
 -- Courses & departments: public read, admin write
 create policy "Public can view departments" on departments for select using (true);
