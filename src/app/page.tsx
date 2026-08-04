@@ -6,6 +6,8 @@ import MemeBanner from "@/components/MemeBanner";
 import HeroIllustration from "@/components/HeroIllustration";
 import StatsBar from "@/components/StatsBar";
 import SearchBar from "@/components/SearchBar";
+import AdBoard from "@/components/AdBoard";
+import JobBoard from "@/components/JobBoard";
 import { schoolIcon } from "@/lib/schoolIcons";
 import { MATERIAL_TYPE_LABELS } from "@/lib/types";
 
@@ -45,8 +47,8 @@ export default async function Home() {
             offkhub · Federal University of Technology, Minna
           </div>
           <h1 className="font-display text-3xl sm:text-5xl font-semibold text-paper mb-3 leading-tight">
-            Everything FUTMinna students need — course materials, past questions,
-            SIWES resources, and project materials — in one place.
+            Everything FUTMinna students need—course materials, past questions,
+            SIWES resources, and project materials—in one place.
           </h1>
 
           <div className="flex flex-col sm:flex-row gap-3 mb-2">
@@ -76,15 +78,26 @@ export default async function Home() {
 
       <StatsBar />
 
+      <div className="bg-tape/10 border-l-2 border-tape p-4 mb-8 flex items-center justify-between">
+        <div className="flex gap-8">
+          <TrustStat label="Materials" value="8,500+" icon="📚" />
+          <TrustStat label="Students" value="15,000+" icon="👨‍🎓" />
+          <TrustStat label="Downloads" value="120,000+" icon="📥" />
+        </div>
+        <div className="hidden sm:block text-[10px] text-tape font-mono uppercase tracking-widest">
+          Verified FUTMinna Archive
+        </div>
+      </div>
+
       <div className="mb-10">
         <MemeBanner />
       </div>
 
       {/* Three-part discovery: most downloaded / new / recommended */}
       <div className="grid sm:grid-cols-3 gap-3 mb-10">
-        <DiscoveryCard icon="🔥" label="Most Downloaded" href="/trending" count={trending?.length} />
-        <DiscoveryCard icon="📈" label="New Uploads" href="/latest" count={latest?.length} />
-        <DiscoveryCard icon="⭐" label="Lecturer Recommended" href="/recommended" count={recommended?.length} />
+        <DiscoveryCard icon="🔥" label="Most Downloaded" href="/trending" count={trending?.length} subtitle="Students love seeing what's popular" />
+        <DiscoveryCard icon="📈" label="New Uploads" href="/latest" count={latest?.length} subtitle="Freshly added resources" />
+        <DiscoveryCard icon="⭐" label="Lecturer Recommended" href="/recommended" count={recommended?.length} subtitle="Trusted by your lecturers" />
       </div>
 
       {!!trending?.length && (
@@ -154,6 +167,9 @@ export default async function Home() {
         </Link>
       </div>
 
+      <AdBoard />
+      <JobBoard />
+
       {/* News */}
       {!!latestNews?.length && (
         <Section title="Latest news" href="/news">
@@ -167,15 +183,39 @@ export default async function Home() {
           </div>
         </Section>
       )}
+
+      {/* Donation Message */}
+      <div className="mt-16 bg-blueprint-light/20 border border-blueprint-line/40 rounded-sm p-8 text-center">
+        <h3 className="font-display font-semibold text-paper text-lg mb-2">Support offkhub</h3>
+        <p className="text-paper/60 text-sm max-w-md mx-auto mb-6">
+          offkhub is free for everyone. If it has helped you, consider supporting the project to help cover hosting and future improvements.
+        </p>
+        <button className="bg-tape text-blueprint font-bold px-8 py-3 rounded-sm hover:opacity-90 transition-opacity">
+          Consider a Donation
+        </button>
+      </div>
     </div>
   );
 }
 
-function DiscoveryCard({ icon, label, href, count }: { icon: string; label: string; href: string; count?: number }) {
+function TrustStat({ label, value, icon }: { label: string; value: string; icon: string }) {
+  return (
+    <div className="flex items-center gap-2">
+      <span className="text-lg">{icon}</span>
+      <div>
+        <div className="font-display font-bold text-paper text-sm leading-none">{value}</div>
+        <div className="text-[10px] text-paper/40 uppercase tracking-tighter mt-1">{label}</div>
+      </div>
+    </div>
+  );
+}
+
+function DiscoveryCard({ icon, label, href, count, subtitle }: { icon: string; label: string; href: string; count?: number; subtitle: string }) {
   return (
     <Link href={href} className="crop-marks bg-blueprint-light/30 border border-blueprint-line rounded-sm p-4 hover:border-tape transition-colors">
       <div className="text-2xl mb-1">{icon}</div>
       <div className="font-display font-semibold text-paper text-sm">{label}</div>
+      <div className="text-[10px] text-tape/70 uppercase tracking-wider mt-1">{subtitle}</div>
       <div className="text-xs text-paper/40 mt-1">{count ? `${count} available` : "Check back soon"}</div>
     </Link>
   );

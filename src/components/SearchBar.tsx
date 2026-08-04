@@ -7,7 +7,7 @@ import { Search } from "lucide-react";
 export default function SearchBar({
   compact = false,
   large = false,
-  placeholder = "Search a course code, e.g. ARC 401",
+  placeholder = "Search course code, department or material...",
 }: {
   compact?: boolean;
   large?: boolean;

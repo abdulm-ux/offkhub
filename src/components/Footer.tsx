@@ -7,6 +7,7 @@ const LINKS = [
   { href: "/dmca", label: "DMCA / Copyright" },
   { href: "/privacy", label: "Privacy Policy" },
   { href: "/upload-guidelines", label: "Upload Guidelines" },
+  { href: "/contributors", label: "Top Contributors" },
 ];
 
 export default function Footer() {
@@ -32,16 +33,21 @@ export default function Footer() {
             ))}
           </div>
 
-          <div className="flex gap-3">
-            <a href="https://github.com/abdulm-ux/offkhub" target="_blank" rel="noopener noreferrer" className="text-paper/50 hover:text-tape transition-colors">
-              <Github size={18} />
-            </a>
-            <a href="#" target="_blank" rel="noopener noreferrer" className="text-paper/50 hover:text-tape transition-colors">
-              <Instagram size={18} />
-            </a>
-            <a href="#" target="_blank" rel="noopener noreferrer" className="text-paper/50 hover:text-tape transition-colors">
-              <Twitter size={18} />
-            </a>
+          <div className="flex flex-col gap-4">
+            <div className="flex gap-3">
+              <a href="https://github.com/abdulm-ux/offkhub" target="_blank" rel="noopener noreferrer" className="text-paper/50 hover:text-tape transition-colors">
+                <Github size={18} />
+              </a>
+              <a href="#" target="_blank" rel="noopener noreferrer" className="text-paper/50 hover:text-tape transition-colors">
+                <Instagram size={18} />
+              </a>
+              <a href="#" target="_blank" rel="noopener noreferrer" className="text-paper/50 hover:text-tape transition-colors">
+                <Twitter size={18} />
+              </a>
+            </div>
+            <div className="text-[10px] text-paper/30 uppercase tracking-widest">
+              FUTMinna Community Project
+            </div>
           </div>
         </div>
 

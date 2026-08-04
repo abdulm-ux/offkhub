@@ -44,12 +44,20 @@ export default function Navbar() {
             >
               <Search size={18} />
             </button>
-            <Link
-              href="/upload"
-              className="hidden sm:flex items-center gap-1.5 bg-tape text-blueprint text-sm font-semibold px-3 py-1.5 rounded-sm hover:opacity-90 transition-opacity"
-            >
-              <Upload size={14} /> Upload
-            </Link>
+            <div className="hidden sm:flex items-center gap-2">
+              <Link
+                href="/trending"
+                className="text-paper/70 hover:text-tape text-sm font-medium px-2 py-1 transition-colors"
+              >
+                Trending
+              </Link>
+              <Link
+                href="/upload"
+                className="flex items-center gap-1.5 bg-tape text-blueprint text-sm font-semibold px-3 py-1.5 rounded-sm hover:opacity-90 transition-opacity"
+              >
+                <Upload size={14} /> Upload
+              </Link>
+            </div>
             <button
               onClick={() => setMobileOpen((o) => !o)}
               aria-label="Menu"
@@ -70,11 +78,13 @@ export default function Navbar() {
       {mobileOpen && (
         <nav className="md:hidden border-t border-blueprint-line/60 px-4 py-3 flex flex-col gap-3 text-sm font-medium text-paper/80">
           {LINKS.map((l) => (
-            <Link key={l.href} href={l.href} onClick={() => setMobileOpen(false)} className="hover:text-tape">
+            <Link key={l.href} href={l.href} onClick={() => setMobileOpen(false)} className="hover:text-tape py-2 border-b border-blueprint-line/30">
               {l.label}
             </Link>
           ))}
-          <Link href="/upload" onClick={() => setMobileOpen(false)} className="hover:text-tape">Upload</Link>
+          <Link href="/upload" onClick={() => setMobileOpen(false)} className="bg-tape text-blueprint text-center font-bold py-3 rounded-sm mt-2">
+            Upload a material
+          </Link>
         </nav>
       )}
     </header>
