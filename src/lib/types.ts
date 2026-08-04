@@ -74,4 +74,3 @@ export type CalendarEvent = {
   start_date: string;
   end_date: string | null;
 };
-// Triggering redeploy

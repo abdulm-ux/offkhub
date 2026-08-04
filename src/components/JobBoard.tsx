@@ -1,4 +1,5 @@
 import { Briefcase, MapPin, ExternalLink } from "lucide-react";
+import Link from "next/link";
 
 export default function JobBoard() {
   const jobs = [
@@ -15,11 +16,11 @@ export default function JobBoard() {
           <Briefcase size={18} className="text-tape" />
           Jobs & Internships
         </h2>
-        <a href="#" className="text-tape text-xs hover:underline">View all opportunities</a>
+        <Link href="/contact" className="text-tape text-xs hover:underline">Post an opportunity</Link>
       </div>
       <div className="grid sm:grid-cols-2 gap-3">
         {jobs.map((job, i) => (
-          <div key={i} className="bg-blueprint-light/30 border border-blueprint-line/40 rounded-sm p-4 flex items-center justify-between group hover:border-tape transition-colors">
+          <Link href="/contact" key={i} className="bg-blueprint-light/30 border border-blueprint-line/40 rounded-sm p-4 flex items-center justify-between group hover:border-tape transition-colors">
             <div>
               <div className="font-display font-semibold text-paper text-sm">{job.title}</div>
               <div className="flex items-center gap-3 mt-1">
@@ -35,7 +36,7 @@ export default function JobBoard() {
               </span>
               <ExternalLink size={12} className="text-paper/20 group-hover:text-tape transition-colors" />
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

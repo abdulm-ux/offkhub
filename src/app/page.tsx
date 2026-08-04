@@ -78,17 +78,6 @@ export default async function Home() {
 
       <StatsBar />
 
-      <div className="bg-tape/10 border-l-2 border-tape p-4 mb-8 flex items-center justify-between">
-        <div className="flex gap-8">
-          <TrustStat label="Materials" value="8,500+" icon="📚" />
-          <TrustStat label="Students" value="15,000+" icon="👨‍🎓" />
-          <TrustStat label="Downloads" value="120,000+" icon="📥" />
-        </div>
-        <div className="hidden sm:block text-[10px] text-tape font-mono uppercase tracking-widest">
-          Verified FUTMinna Archive
-        </div>
-      </div>
-
       <div className="mb-10">
         <MemeBanner />
       </div>
@@ -198,17 +187,7 @@ export default async function Home() {
   );
 }
 
-function TrustStat({ label, value, icon }: { label: string; value: string; icon: string }) {
-  return (
-    <div className="flex items-center gap-2">
-      <span className="text-lg">{icon}</span>
-      <div>
-        <div className="font-display font-bold text-paper text-sm leading-none">{value}</div>
-        <div className="text-[10px] text-paper/40 uppercase tracking-tighter mt-1">{label}</div>
-      </div>
-    </div>
-  );
-}
+
 
 function DiscoveryCard({ icon, label, href, count, subtitle }: { icon: string; label: string; href: string; count?: number; subtitle: string }) {
   return (

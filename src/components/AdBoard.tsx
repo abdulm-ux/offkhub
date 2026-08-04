@@ -60,16 +60,24 @@ function AdCard({ icon, title, desc, cta }: { icon: React.ReactNode, title: stri
       <div className="text-tape mb-3">{icon}</div>
       <div className="font-display font-semibold text-sm mb-1">{title}</div>
       <p className="text-[11px] text-ink/60 mb-4 leading-relaxed">{desc}</p>
-      <button className="w-full text-[10px] font-bold uppercase tracking-widest py-2 border border-blueprint-line hover:bg-blueprint hover:text-paper transition-colors">
+      <a 
+        href="/contact"
+        className="block w-full text-center text-[10px] font-bold uppercase tracking-widest py-2 border border-blueprint-line hover:bg-blueprint hover:text-paper transition-colors"
+      >
         {cta}
-      </button>
+      </a>
     </div>
   );
 }
 
 function ToolLink({ label }: { label: string }) {
   return (
-    <a href="#" className="flex items-center justify-between bg-blueprint-light/40 border border-blueprint-line/60 rounded-sm px-3 py-2 text-paper/80 hover:text-tape hover:border-tape transition-all group">
+    <a 
+      href="https://amazon.com" 
+      target="_blank" 
+      rel="noopener noreferrer" 
+      className="flex items-center justify-between bg-blueprint-light/40 border border-blueprint-line/60 rounded-sm px-3 py-2 text-paper/80 hover:text-tape hover:border-tape transition-all group"
+    >
       <span className="text-[11px] font-medium">{label}</span>
       <ExternalLink size={10} className="opacity-0 group-hover:opacity-100 transition-opacity" />
     </a>
